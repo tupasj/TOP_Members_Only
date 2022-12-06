@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { Modal } from "../UI/Modal";
 
 const Container = styled.header`
   display: grid;
@@ -43,13 +45,16 @@ const ButtonsContainer = styled.div`
 `;
 
 const Header = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <Container>
       <Title>Message Board</Title>
       <ButtonsContainer>
-        <LoginButton>Log In</LoginButton>
+        <LoginButton onClick={() => setModalOpen(true)}>Log In</LoginButton>
         <RegisterButton>Register</RegisterButton>
       </ButtonsContainer>
+      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </Container>
   );
 };
