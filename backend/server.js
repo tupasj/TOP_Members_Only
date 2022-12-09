@@ -32,9 +32,10 @@ app.use(
 //     saveUninitialized: true,
 //   })
 // );
-app.use(cookieParser("secretcode"));
+// app.use(cookieParser("secretcode"));
 
 app.use("/user", userRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Hello from the backend");
