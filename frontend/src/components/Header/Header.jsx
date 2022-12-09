@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Modal } from "../UI/Modal";
+import { LoginModal } from "../UI/LoginModal";
+import { SignupModal } from "../UI/SignupModal";
 
 const Container = styled.header`
   display: grid;
@@ -45,16 +46,28 @@ const ButtonsContainer = styled.div`
 `;
 
 const Header = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
 
   return (
     <Container>
       <Title>Message Board</Title>
       <ButtonsContainer>
-        <LoginButton onClick={() => setModalOpen(true)}>Log In</LoginButton>
-        <RegisterButton>Register</RegisterButton>
+        <LoginButton onClick={() => setLoginModalOpen(true)}>
+          Log In
+        </LoginButton>
+        <RegisterButton onClick={() => setSignupModalOpen(true)}>
+          Register
+        </RegisterButton>
       </ButtonsContainer>
-      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <LoginModal
+        loginModalOpen={loginModalOpen}
+        setLoginModalOpen={setLoginModalOpen}
+      />
+      <SignupModal
+        signupModalOpen={signupModalOpen}
+        setSignupModalOpen={setSignupModalOpen}
+      />
     </Container>
   );
 };
