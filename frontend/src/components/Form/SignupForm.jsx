@@ -64,18 +64,19 @@ const SignupForm = () => {
       console.log("email: ", values.email);
       console.log("name: ", values.name);
       console.log("password: ", values.password);
-      await axios.post("http://localhost:4000/user/register", {
-        email: values.email,
-        name: values.name,
-        password: values.password,
-      });
+      try {
+        await axios.post("http://localhost:4000/user/register", {
+          email: values.email,
+          name: values.name,
+          password: values.password,
+        });
+        setNotificationText("Sign up successful!");
+      } catch (error) {
+        console.log('error: ', error.response.data.message);
+        setNotificationText(`Error: ${error.response.data.message}`);
+      }
     };
     createUser(values);
-  };
-
-  const successfulSignup = () => {
-    setSignedUp(true);
-    setNotificationText("Signup successful!");
   };
 
   let validationActive = false;
@@ -90,7 +91,6 @@ const SignupForm = () => {
           onSubmit={(values, { resetForm }) => {
             onSubmit(values);
             resetForm();
-            successfulSignup();
           }}
         >
           <Form>

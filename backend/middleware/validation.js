@@ -7,7 +7,6 @@ async function validation (req, res, validationSchema) {
     return true;
   } catch (error) {
     console.log('validation error: ', error);
-    res.status(400).json({ error });
     return false;
   }
 };
