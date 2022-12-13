@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ErrorMessageText } from "./ErrorMessageText";
@@ -31,7 +32,6 @@ const LoginButton = styled.button`
 const NotificationTextContainer = styled.div``;
 
 const LoginForm = () => {
-  const [loggedIn, setloggedIn] = useState(false);
   const [notificationText, setNotificationText] = useState("");
 
   const initialValues = {
@@ -41,10 +41,6 @@ const LoginForm = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .required("This field is required.")
-      .min(2, "Name should be a minimum of 2 characters.")
-      .max(50, "Please enter a name of 50 characters or less"),
     email: Yup.string()
       .email("Invalid email format.")
       .required("This field is required."),
@@ -55,78 +51,72 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values) => {
-    
-  };
-
-  const successfulSignup = () => {
-    setloggedIn(true);
-    setNotificationText("Signup successful!");
+    const loginUser = async (values) => {
+      try {
+        const loginResponse = await axios.post("http://localhost:4000/user/login", {
+          email: values.email,
+          password: values.password,
+        });
+        console.log('User: ', loginResponse);
+        setNotificationText("Log in successful!");
+      } catch (error) {
+        console.log('error: ', error.response.data.message);
+        setNotificationText(`Error: ${error.response.data.message}`);
+      }
+    };
+    loginUser(values);
   };
 
   let validationActive = false;
   return (
     <>
-      {!loggedIn && (
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          validateOnBlur={validationActive}
-          validateOnChange={validationActive}
-          onSubmit={(values, { resetForm }) => {
-            onSubmit(values);
-            resetForm();
-            successfulSignup();
-          }}
-        >
-          <Form>
-            <FormWrapper>
-              <NotificationTextContainer>
-                {notificationText}
-              </NotificationTextContainer>
-              <FormControl>
-                <label htmlFor="name">Name</label>
-                <Field
-                  className="form-input"
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                />
-              </FormControl>
-              <ErrorMessage name="name" component={ErrorMessageText} />
-              <FormControl>
-                <label htmlFor="email">Email</label>
-                <Field
-                  className="form-input"
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                />
-              </FormControl>
-              <ErrorMessage name="email" component={ErrorMessageText} />
-              <FormControl>
-                <label htmlFor="password">Password</label>
-                <Field
-                  className="form-input"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                />
-              </FormControl>
-              <ErrorMessage name="password" component={ErrorMessageText} />
-              <div className="password-message hidden text-red"></div>
-              <LoginButton
-                type="submit"
-                onClick={() => (validationActive = true)}
-              >
-                Log In
-              </LoginButton>
-            </FormWrapper>
-          </Form>
-        </Formik>
-      )}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        validateOnBlur={validationActive}
+        validateOnChange={validationActive}
+        onSubmit={(values, { resetForm }) => {
+          onSubmit(values);
+          resetForm();
+        }}
+      >
+        <Form>
+          <FormWrapper>
+            <NotificationTextContainer>
+              {notificationText}
+            </NotificationTextContainer>
+            <FormControl>
+              <label htmlFor="email">Email</label>
+              <Field
+                className="form-input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+              />
+            </FormControl>
+            <ErrorMessage name="email" component={ErrorMessageText} />
+            <FormControl>
+              <label htmlFor="password">Password</label>
+              <Field
+                className="form-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+              />
+            </FormControl>
+            <ErrorMessage name="password" component={ErrorMessageText} />
+            <div className="password-message hidden text-red"></div>
+            <LoginButton
+              type="submit"
+              onClick={() => (validationActive = true)}
+            >
+              Log In
+            </LoginButton>
+          </FormWrapper>
+        </Form>
+      </Formik>
     </>
   );
 };

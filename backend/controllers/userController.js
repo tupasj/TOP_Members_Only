@@ -6,7 +6,7 @@ const userValidationSchema = require("../validationSchemas.js");
 const validation = require("../middleware/validation");
 
 const createToken = (_id) => {
-  return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
+  return jwt.sign({ _id: _id }, process.env.SECRET);
 };
 
 const getUser = async (req, res, email) => {
@@ -23,7 +23,7 @@ const getUser = async (req, res, email) => {
 const createUser = async (req, res) => {
   try {
     const isValid = await validation(req, res, userValidationSchema);
-    console.log('isValid: ', isValid);
+    console.log("isValid: ", isValid);
     if (!isValid) {
       throw new Error("User info not valid");
     }
@@ -48,13 +48,18 @@ const loginUser = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const user = await User.findOne({ email });
-  const passwordMatch = await bcrypt.compare(password, user.password);
-
   try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("Invalid credentials");
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch) {
       const token = createToken(user._id);
       res.status(201).json({ email, token });
+    } else {
+      throw new Error("Invalid credentials");
     }
   } catch (error) {
     res.status(400).json({ message: error.message });

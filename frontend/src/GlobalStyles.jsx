@@ -50,7 +50,6 @@ table {
 }
 `;
 
-// Gainsboro: #D8DBE2, Light Steel Blue: #A9BCD0, Cadet Blue: #58A4B0, Charcoal: #373F51, Eerie Black: #1B1B1E
 const Styles = createGlobalStyle`
 :root {
     --gainsboro: #D8DBE2;
