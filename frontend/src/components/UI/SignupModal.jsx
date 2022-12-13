@@ -1,68 +1,46 @@
 import styled from "styled-components";
-import { useState } from "react";
-import axios from "axios";
+import { SignupForm } from "../Form/SignupForm";
 
 const Container = styled.div`
+  width: 500px;
   position: absolute;
-  top: 50%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, 50%);
   background-color: white;
   color: black;
   border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
 `;
 
-const Form = styled.form`
+const IconContainer = styled.span`
+  padding-right: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  justify-content: end;
+`;
+
+const XButton = styled.i`
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const SignupModal = (props) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const signupModalOpen = props.signupModalOpen;
   const setSignupModalOpen = props.setSignupModalOpen;
-
-  const register = (e) => {
-    e.preventDefault();
-    console.log("username: ", username);
-    console.log("password: ", password);
-    axios({
-      method: "post",
-      data: {
-        name: username,
-        password: password,
-      },
-      withCredentials: true,
-      url: "http://localhost:4000/user/register",
-    }).then((res) => console.log(res));
-  };
 
   return (
     <>
       {signupModalOpen && (
         <Container>
-          <div onClick={() => setSignupModalOpen(false)}>x</div>
-          <Form>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button onClick={register}>Submit</button>
-          </Form>
+          <IconContainer>
+            <XButton
+              className="fa-solid fa-x"
+              onClick={() => setSignupModalOpen(false)}
+            ></XButton>
+          </IconContainer>
+          <SignupForm />
         </Container>
       )}
     </>

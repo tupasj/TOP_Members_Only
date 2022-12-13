@@ -1,74 +1,46 @@
 import styled from "styled-components";
-import { useState } from "react";
-import axios from "axios";
+import { LoginForm } from "../Form/LoginForm";
 
 const Container = styled.div`
+  width: 500px;
   position: absolute;
-  top: 50%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, 50%);
   background-color: white;
   color: black;
   border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
 `;
 
-const Form = styled.form`
+const IconContainer = styled.span`
+  padding-right: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  justify-content: end;
+`;
+
+const XButton = styled.i`
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const LoginModal = (props) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const loginModalOpen = props.loginModalOpen;
   const setLoginModalOpen = props.setLoginModalOpen;
-
-  const login = (e) => {
-    e.preventDefault();
-    axios({
-      method: "post",
-      data: {
-        username,
-        password,
-      },
-      withCredentials: true,
-      url: "http://localhost:4000/login",
-    }).then((res) => console.log(res));
-  }
-
-  const getUser = () => {
-    axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:4000/getUser",
-    }).then((res) => console.log(res));
-  }
 
   return (
     <>
       {loginModalOpen && (
         <Container>
-          <div onClick={() => setLoginModalOpen(false)}>x</div>
-          <Form>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button>Submit</button>
-          </Form>
+          <IconContainer>
+            <XButton
+              className="fa-solid fa-x"
+              onClick={() => setLoginModalOpen(false)}
+            ></XButton>
+          </IconContainer>
+          <LoginForm />
         </Container>
       )}
     </>
