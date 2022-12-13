@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ErrorMessageText } from "./ErrorMessageText";
@@ -61,12 +62,12 @@ const SignupForm = () => {
   const onSubmit = async (values) => {
     const createUser = async (values) => {
       console.log("email: ", values.email);
-      console.log("username: ", values.username);
+      console.log("name: ", values.name);
       console.log("password: ", values.password);
       await axios.post("http://localhost:4000/user/register", {
-        email: email,
-        name: username,
-        password: password,
+        email: values.email,
+        name: values.name,
+        password: values.password,
       });
     };
     createUser(values);
