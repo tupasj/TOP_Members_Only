@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
+    admin: {
+      type: Boolean,
+      default: false,
+    },
     email: {
       type: String,
       unique: true,

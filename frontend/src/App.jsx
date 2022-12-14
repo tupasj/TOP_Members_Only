@@ -6,12 +6,13 @@ import { AuthContext } from "./context/AuthContext";
 
 const App = () => {
   const [authUser, setAuthUser] = useState(true);
+  const [viewAccount, setViewAccount] = useState(false);
 
   return (
     <GlobalStyles>
       <AuthContext.Provider value={{ authUser, setAuthUser }}>
-        <Header />
-        <Main />
+        <Header viewAccount={viewAccount} setViewAccount={setViewAccount} />
+        <Main viewAccount={viewAccount} />
       </AuthContext.Provider>
     </GlobalStyles>
   );

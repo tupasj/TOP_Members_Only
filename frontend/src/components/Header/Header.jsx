@@ -20,6 +20,7 @@ const Title = styled.span`
   grid-area: title;
   justify-self: center;
   align-self: center;
+  cursor: pointer;
 `;
 
 const ButtonsContainer = styled.div`
@@ -30,19 +31,24 @@ const ButtonsContainer = styled.div`
   gap: 5px;
 `;
 
-const Header = () => {
+const Header = (props) => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signupModalOpen, setSignupModalOpen] = useState(false);
   const { authUser, setAuthUser } = useContext(AuthContext);
+  const setViewAccount = props.setViewAccount;
 
   return (
     <Container>
-      <Title>Message Board</Title>
+      <Title onClick={() => setViewAccount(false)}>Message Board</Title>
       <ButtonsContainer>
         {authUser ? (
           <>
-            <HeaderButton>View Account</HeaderButton>
-            <HeaderButton clickHandler={() => setAuthUser(null)}>Log Out</HeaderButton>
+            <HeaderButton clickHandler={() => setViewAccount(true)}>
+              View Account
+            </HeaderButton>
+            <HeaderButton clickHandler={() => setAuthUser(null)}>
+              Log Out
+            </HeaderButton>
           </>
         ) : (
           <>
