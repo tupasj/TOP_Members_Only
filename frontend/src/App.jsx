@@ -5,7 +5,7 @@ import { Main } from "./components/Main";
 import { AuthContext } from "./context/AuthContext";
 
 const App = () => {
-  const [authUser, setAuthUser] = useState(null);
+  const [authUser, setAuthUser] = useState(true);
 
   return (
     <GlobalStyles>

@@ -9,8 +9,10 @@ const Container = styled.button`
   cursor: pointer;
 `;
 
-const HeaderButton = ({ children }) => {
-  return <Container>{children}</Container>;
+const HeaderButton = (props) => {
+  const clickHandler = props.clickHandler;
+
+  return <Container onClick={clickHandler}>{props.children}</Container>;
 };
 
 export { HeaderButton };

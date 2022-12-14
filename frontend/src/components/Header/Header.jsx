@@ -33,7 +33,7 @@ const ButtonsContainer = styled.div`
 const Header = () => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signupModalOpen, setSignupModalOpen] = useState(false);
-  const { authUser } = useContext(AuthContext);
+  const { authUser, setAuthUser } = useContext(AuthContext);
 
   return (
     <Container>
@@ -42,14 +42,14 @@ const Header = () => {
         {authUser ? (
           <>
             <HeaderButton>View Account</HeaderButton>
-            <HeaderButton>Log Out</HeaderButton>
+            <HeaderButton clickHandler={() => setAuthUser(null)}>Log Out</HeaderButton>
           </>
         ) : (
           <>
-            <HeaderButton onClick={() => setLoginModalOpen(true)}>
+            <HeaderButton clickHandler={() => setLoginModalOpen(true)}>
               Log In
             </HeaderButton>
-            <HeaderButton onClick={() => setSignupModalOpen(true)}>
+            <HeaderButton clickHandler={() => setSignupModalOpen(true)}>
               Register
             </HeaderButton>
           </>
