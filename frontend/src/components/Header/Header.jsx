@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { LoginModal } from "../UI/LoginModal";
 import { SignupModal } from "../UI/SignupModal";
+import { HeaderButton } from "../UI/HeaderButton";
 
 const Container = styled.header`
   display: grid;
@@ -20,23 +22,6 @@ const Title = styled.span`
   align-self: center;
 `;
 
-const LoginButton = styled.button`
-  border: none;
-  border-radius: 4px;
-  padding: 8px;
-  background-color: gray;
-  color: white;
-  cursor: pointer;
-`;
-const RegisterButton = styled.button`
-  border: none;
-  border-radius: 4px;
-  padding: 8px;
-  background-color: gray;
-  color: white;
-  cursor: pointer;
-`;
-
 const ButtonsContainer = styled.div`
   grid-area: buttons;
   justify-self: end;
@@ -48,17 +33,27 @@ const ButtonsContainer = styled.div`
 const Header = () => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signupModalOpen, setSignupModalOpen] = useState(false);
+  const { authUser } = useContext(AuthContext);
 
   return (
     <Container>
       <Title>Message Board</Title>
       <ButtonsContainer>
-        <LoginButton onClick={() => setLoginModalOpen(true)}>
-          Log In
-        </LoginButton>
-        <RegisterButton onClick={() => setSignupModalOpen(true)}>
-          Register
-        </RegisterButton>
+        {authUser ? (
+          <>
+            <HeaderButton>View Account</HeaderButton>
+            <HeaderButton>Log Out</HeaderButton>
+          </>
+        ) : (
+          <>
+            <HeaderButton onClick={() => setLoginModalOpen(true)}>
+              Log In
+            </HeaderButton>
+            <HeaderButton onClick={() => setSignupModalOpen(true)}>
+              Register
+            </HeaderButton>
+          </>
+        )}
       </ButtonsContainer>
       <LoginModal
         loginModalOpen={loginModalOpen}
