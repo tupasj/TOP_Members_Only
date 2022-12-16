@@ -64,7 +64,14 @@ const loginUser = async (req, res) => {
     if (passwordMatch) {
       const token = createToken(user._id);
       res.cookie("jwt", token, { httpOnly: true });
-      res.status(200).json({ user: user._id });
+      res
+        .status(200)
+        .json({
+          userID: user._id,
+          admin: user.admin,
+          member: user.member,
+          username: user.name,
+        });
     } else {
       throw new Error("Invalid credentials");
     }
@@ -74,9 +81,9 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  res.clearCookie('jwt');
+  res.clearCookie("jwt");
   res.status(200);
-}
+};
 
 module.exports = {
   getUser,

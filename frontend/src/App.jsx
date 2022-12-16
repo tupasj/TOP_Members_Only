@@ -1,5 +1,5 @@
 import { GlobalStyles } from "./GlobalStyles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { Main } from "./components/Main";
 import { AuthContext } from "./context/AuthContext";
@@ -7,6 +7,10 @@ import { AuthContext } from "./context/AuthContext";
 const App = () => {
   const [authUser, setAuthUser] = useState(null);
   const [viewAccount, setViewAccount] = useState(false);
+
+  useEffect(() => {
+    console.log('authUser: ', authUser);
+  }, [authUser]);
 
   return (
     <GlobalStyles>

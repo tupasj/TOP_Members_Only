@@ -1,9 +1,10 @@
-import { useState } from "react";
+import styled from "styled-components";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ErrorMessageText } from "./ErrorMessageText";
-import styled from "styled-components";
+import { AuthContext } from "../../context/AuthContext";
 
 const FormWrapper = styled.div`
   padding: 15px;
@@ -32,6 +33,7 @@ const LoginButton = styled.button`
 const NotificationTextContainer = styled.div``;
 
 const LoginForm = () => {
+  const { setAuthUser } = useContext(AuthContext);
   const [notificationText, setNotificationText] = useState("");
 
   const initialValues = {
@@ -61,7 +63,7 @@ const LoginForm = () => {
           },
           { withCredentials: true, credentials: "include" }
         );
-        console.log("loginResponse: ", loginResponse);
+        setAuthUser(loginResponse.data);
         setNotificationText("Log in successful!");
       } catch (error) {
         console.log("error: ", error.response.data.message);
