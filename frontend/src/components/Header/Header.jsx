@@ -44,7 +44,7 @@ const Header = (props) => {
       {},
       { withCredentials: true }
     );
-    setAuthUser(null);
+    setAuthUser(false);
   };
 
   return (

@@ -69,7 +69,7 @@ const loginUser = async (req, res) => {
         admin: user.admin,
         email: user.email,
         member: user.member,
-        username: user.name,
+        name: user.name,
       });
     } else {
       throw new Error("Invalid credentials");
