@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Container = styled.div`
   width: 500px;
@@ -35,12 +38,20 @@ const TextArea = styled.textarea`
 `;
 
 const MessageModal = (props) => {
+  const { authUser } = useContext(AuthContext);
   const addMessageModalOpen = props.addMessageModalOpen;
   const setAddMessageModalOpen = props.setAddMessageModalOpen;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    const author = authUser.name;
+    const textContent = e.target[0].value;
     e.preventDefault();
-    console.log(e.target[0].value);
+
+    const res = await axios.post(`http://localhost:4000/post/add`, {
+      author,
+      textContent,
+    });
+    console.log("res: ", res);
   };
 
   return (
