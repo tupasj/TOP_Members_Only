@@ -64,14 +64,13 @@ const loginUser = async (req, res) => {
     if (passwordMatch) {
       const token = createToken(user._id);
       res.cookie("jwt", token, { httpOnly: true });
-      res
-        .status(200)
-        .json({
-          userID: user._id,
-          admin: user.admin,
-          member: user.member,
-          username: user.name,
-        });
+      res.status(200).json({
+        userID: user._id,
+        admin: user.admin,
+        email: user.email,
+        member: user.member,
+        username: user.name,
+      });
     } else {
       throw new Error("Invalid credentials");
     }
@@ -85,9 +84,47 @@ const logoutUser = async (req, res) => {
   res.status(200);
 };
 
+const checkMemberCode = async (req, res) => {
+  const email = req.body.email;
+  const passcode = req.params.secretMemberPasscode;
+  const user = await User.findOne({ email });
+
+  try {
+    if (passcode == process.env.MEMBER_PASSCODE) {
+      user.member = true;
+      await user.save();
+      res.status(200);
+    } else {
+      throw new Error("Incorrect passcode");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const checkAdminCode = async (req, res) => {
+  const email = req.body.email;
+  const passcode = req.params.secretAdminPasscode;
+  const user = await User.findOne({ email });
+
+  try {
+    if (passcode == process.env.ADMIN_PASSCODE) {
+      user.admin = true;
+      await user.save();
+      res.status(200);
+    } else {
+      throw new Error("Incorrect passcode");
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getUser,
   createUser,
   loginUser,
   logoutUser,
+  checkMemberCode,
+  checkAdminCode,
 };

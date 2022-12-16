@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useContext } from "react";
+import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const Container = styled.div``;
@@ -20,10 +21,30 @@ const AdminStatus = styled.div`
 const Account = () => {
   const { authUser } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const checkMemberCode = async (e) => {
     e.preventDefault();
-    console.log(e);
-    console.log(e.target[0].value);
+    const memberCode = e.target[0].value;
+
+    try {
+      await axios.patch(`http://localhost:4000/user/memberCode=${memberCode}`, {
+        email: authUser.email,
+      });
+    } catch (error) {
+      console.log("error: ", error.response.data.message);
+    }
+  };
+
+  const checkAdminCode = async (e) => {
+    e.preventDefault();
+    const adminCode = e.target[0].value;
+
+    try {
+      await axios.patch(`http://localhost:4000/user/adminCode=${adminCode}`, {
+        email: authUser.email,
+      });
+    } catch (error) {
+      console.log("error: ", error.response.data.message);
+    }
   };
 
   return (
@@ -40,7 +61,7 @@ const Account = () => {
               Currently not a member. Enter the secret passcode to gain
               membership!
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={checkMemberCode}>
               <input type="text" placeholder="Enter passcode" />
             </form>
           </>
@@ -58,7 +79,7 @@ const Account = () => {
               Currently not an admin. Enter the secret passcode to gain admin
               status!
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={checkAdminCode}>
               <input type="text" placeholder="Enter passcode" />
             </form>
           </>
