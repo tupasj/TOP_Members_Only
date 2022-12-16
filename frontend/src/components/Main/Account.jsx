@@ -19,16 +19,23 @@ const AdminStatus = styled.div`
 `;
 
 const Account = () => {
-  const { authUser } = useContext(AuthContext);
+  const { authUser, setAuthUser } = useContext(AuthContext);
+  const getUser = async (email) => {
+    const getUserResponse = await axios.get(`http://localhost:4000/user/email=${email}`);
+    return getUserResponse.data.user;
+  };
 
   const checkMemberCode = async (e) => {
     e.preventDefault();
     const memberCode = e.target[0].value;
+    const email = authUser.email;
 
     try {
       await axios.patch(`http://localhost:4000/user/memberCode=${memberCode}`, {
-        email: authUser.email,
+        email,
       });
+      const retrievedUser = await getUser(email);
+      setAuthUser(retrievedUser);
     } catch (error) {
       console.log("error: ", error.response.data.message);
     }
@@ -37,11 +44,14 @@ const Account = () => {
   const checkAdminCode = async (e) => {
     e.preventDefault();
     const adminCode = e.target[0].value;
+    const email = authUser.email;
 
     try {
       await axios.patch(`http://localhost:4000/user/adminCode=${adminCode}`, {
-        email: authUser.email,
+        email,
       });
+      const retrievedUser = await getUser(email);
+      setAuthUser(retrievedUser);
     } catch (error) {
       console.log("error: ", error.response.data.message);
     }

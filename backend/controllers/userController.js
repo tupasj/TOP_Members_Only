@@ -15,7 +15,7 @@ const getUser = async (req, res, next) => {
   const email = req.params.userEmail;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password");
     const token = createToken(user._id);
     res.status(200).json({ user, token });
   } catch (error) {
@@ -79,9 +79,9 @@ const loginUser = async (req, res) => {
   }
 };
 
-const logoutUser = async (req, res) => {
+const logoutUser = (req, res) => {
   res.clearCookie("jwt");
-  res.status(200);
+  res.status(200).end();
 };
 
 const checkMemberCode = async (req, res) => {
@@ -93,7 +93,7 @@ const checkMemberCode = async (req, res) => {
     if (passcode == process.env.MEMBER_PASSCODE) {
       user.member = true;
       await user.save();
-      res.status(200);
+      res.status(200).json();
     } else {
       throw new Error("Incorrect passcode");
     }
@@ -111,7 +111,7 @@ const checkAdminCode = async (req, res) => {
     if (passcode == process.env.ADMIN_PASSCODE) {
       user.admin = true;
       await user.save();
-      res.status(200);
+      res.status(200).json();
     } else {
       throw new Error("Incorrect passcode");
     }

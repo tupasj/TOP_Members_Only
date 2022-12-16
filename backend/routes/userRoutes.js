@@ -16,7 +16,7 @@ router.route("/register").post((req, res) => {
   createUser(req, res);
 });
 router.route("/login").post(loginUser);
-router.route("/logout").get(logoutUser);
+router.route("/logout").post(logoutUser);
 router.route("/memberCode=:secretMemberPasscode").patch(checkMemberCode);
 router.route("/adminCode=:secretAdminPasscode").patch(checkAdminCode);
 

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useContext } from "react";
+import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { LoginModal } from "../UI/LoginModal";
 import { SignupModal } from "../UI/SignupModal";
@@ -37,6 +38,15 @@ const Header = (props) => {
   const { authUser, setAuthUser } = useContext(AuthContext);
   const setViewAccount = props.setViewAccount;
 
+  const logout = async () => {
+    await axios.post(
+      `http://localhost:4000/user/logout`,
+      {},
+      { withCredentials: true }
+    );
+    setAuthUser(null);
+  };
+
   return (
     <Container>
       <Title onClick={() => setViewAccount(false)}>Message Board</Title>
@@ -46,9 +56,7 @@ const Header = (props) => {
             <HeaderButton clickHandler={() => setViewAccount(true)}>
               View Account
             </HeaderButton>
-            <HeaderButton clickHandler={() => setAuthUser(null)}>
-              Log Out
-            </HeaderButton>
+            <HeaderButton clickHandler={logout}>Log Out</HeaderButton>
           </>
         ) : (
           <>
