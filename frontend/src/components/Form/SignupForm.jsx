@@ -65,15 +65,19 @@ const SignupForm = () => {
       console.log("name: ", values.name);
       console.log("password: ", values.password);
       try {
-        const registerResponse = await axios.post("http://localhost:4000/user/register", {
-          email: values.email,
-          name: values.name,
-          password: values.password,
-        }, { withCredentials: true, credentials: 'include'});
-        console.log('response: ', registerResponse);
+        const registerResponse = await axios.post(
+          "http://localhost:4000/user/register",
+          {
+            email: values.email,
+            name: values.name,
+            password: values.password,
+          },
+          { withCredentials: true, credentials: "include" }
+        );
+        console.log("registerResponse: ", registerResponse);
         setNotificationText("Sign up successful!");
       } catch (error) {
-        console.log('error: ', error.response.data.message);
+        console.log("error: ", error.response.data.message);
         setNotificationText(`Error: ${error.response.data.message}`);
       }
     };
@@ -101,12 +105,7 @@ const SignupForm = () => {
               </NotificationTextContainer>
               <FormControl>
                 <label htmlFor="name">Name</label>
-                <Field
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                />
+                <Field type="text" id="name" name="name" placeholder="Name" />
               </FormControl>
               <ErrorMessage name="name" component={ErrorMessageText} />
               <FormControl>

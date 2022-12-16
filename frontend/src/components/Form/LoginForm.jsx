@@ -53,14 +53,18 @@ const LoginForm = () => {
   const onSubmit = async (values) => {
     const loginUser = async (values) => {
       try {
-        const loginResponse = await axios.post("http://localhost:4000/user/login", {
-          email: values.email,
-          password: values.password,
-        });
-        console.log('User: ', loginResponse);
+        const loginResponse = await axios.post(
+          "http://localhost:4000/user/login",
+          {
+            email: values.email,
+            password: values.password,
+          },
+          { withCredentials: true, credentials: "include" }
+        );
+        console.log("loginResponse: ", loginResponse);
         setNotificationText("Log in successful!");
       } catch (error) {
-        console.log('error: ', error.response.data.message);
+        console.log("error: ", error.response.data.message);
         setNotificationText(`Error: ${error.response.data.message}`);
       }
     };
