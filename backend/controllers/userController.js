@@ -63,9 +63,8 @@ const loginUser = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch) {
       const token = createToken(user._id);
-      res
-        .status(201)
-        .json({ _id: user._id, name: user.name, email: user.email, token });
+      res.cookie("jwt", token, { httpOnly: true });
+      res.status(200).json({ user: user._id });
     } else {
       throw new Error("Invalid credentials");
     }
@@ -74,8 +73,14 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  res.clearCookie('jwt');
+  res.status(200);
+}
+
 module.exports = {
   getUser,
   createUser,
   loginUser,
+  logoutUser,
 };
