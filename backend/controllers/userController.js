@@ -1,19 +1,23 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { protect } = require("../middleware/authMiddleware");
 
 const userValidationSchema = require("../validationSchemas.js");
 const validation = require("../middleware/validation");
 
 const createToken = (_id) => {
-  return jwt.sign({ _id: _id }, process.env.SECRET);
+  return jwt.sign({ _id: _id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
-const getUser = async (req, res, email) => {
-  console.log("email: ", email);
+const getUser = async (req, res, next) => {
+  protect(req, res, next);
+  const email = req.params.userEmail;
+
   try {
     const user = await User.findOne({ email });
-    res.status(200).json(user);
+    const token = createToken(user._id);
+    res.status(200).json({ user, token });
   } catch (error) {
     console.log("error:", error);
     res.status(400).json({ message: error.message });
@@ -37,6 +41,9 @@ const createUser = async (req, res) => {
     });
 
     const newUser = await user.save();
+    const token = createToken(newUser._id);
+    console.log("token: ", token);
+    res.cookie("jwt", token, { httpOnly: true });
     res.status(201).json(newUser);
   } catch (error) {
     console.log("error: ", error.message);
@@ -45,8 +52,7 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
@@ -57,7 +63,9 @@ const loginUser = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (passwordMatch) {
       const token = createToken(user._id);
-      res.status(201).json({ email, token });
+      res
+        .status(201)
+        .json({ _id: user._id, name: user.name, email: user.email, token });
     } else {
       throw new Error("Invalid credentials");
     }

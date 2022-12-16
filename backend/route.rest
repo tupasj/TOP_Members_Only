@@ -8,4 +8,4 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:4000/user/email=foobar@gmail.com
+GET http://localhost:4000/user/email=bar1@gmail.com

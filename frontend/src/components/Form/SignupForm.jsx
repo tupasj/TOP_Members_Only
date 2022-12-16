@@ -65,11 +65,12 @@ const SignupForm = () => {
       console.log("name: ", values.name);
       console.log("password: ", values.password);
       try {
-        await axios.post("http://localhost:4000/user/register", {
+        const registerResponse = await axios.post("http://localhost:4000/user/register", {
           email: values.email,
           name: values.name,
           password: values.password,
-        });
+        }, { withCredentials: true, credentials: 'include'});
+        console.log('response: ', registerResponse);
         setNotificationText("Sign up successful!");
       } catch (error) {
         console.log('error: ', error.response.data.message);
