@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { LoginModal } from "../UI/LoginModal";
 import { SignupModal } from "../UI/SignupModal";
 import { HeaderButton } from "../UI/HeaderButton";
+import { MessageModal } from "../UI/MessageModal";
 
 const Container = styled.header`
   display: grid;
@@ -35,6 +36,7 @@ const ButtonsContainer = styled.div`
 const Header = (props) => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signupModalOpen, setSignupModalOpen] = useState(false);
+  const [addMessageModalOpen, setAddMessageModalOpen] = useState(false);
   const { authUser, setAuthUser } = useContext(AuthContext);
   const setViewAccount = props.setViewAccount;
 
@@ -53,15 +55,18 @@ const Header = (props) => {
       <ButtonsContainer>
         {authUser ? (
           <>
-            <HeaderButton clickHandler={() => setViewAccount(true)}>
-              View Account
+            <HeaderButton clickHandler={() => setAddMessageModalOpen(true)}>
+              Add message
             </HeaderButton>
-            <HeaderButton clickHandler={logout}>Log Out</HeaderButton>
+            <HeaderButton clickHandler={() => setViewAccount(true)}>
+              View account
+            </HeaderButton>
+            <HeaderButton clickHandler={logout}>Log out</HeaderButton>
           </>
         ) : (
           <>
             <HeaderButton clickHandler={() => setLoginModalOpen(true)}>
-              Log In
+              Log in
             </HeaderButton>
             <HeaderButton clickHandler={() => setSignupModalOpen(true)}>
               Register
@@ -76,6 +81,10 @@ const Header = (props) => {
       <SignupModal
         signupModalOpen={signupModalOpen}
         setSignupModalOpen={setSignupModalOpen}
+      />
+      <MessageModal
+        addMessageModalOpen={addMessageModalOpen}
+        setAddMessageModalOpen={setAddMessageModalOpen}
       />
     </Container>
   );
