@@ -41,17 +41,23 @@ const MessageModal = (props) => {
   const { authUser } = useContext(AuthContext);
   const addMessageModalOpen = props.addMessageModalOpen;
   const setAddMessageModalOpen = props.setAddMessageModalOpen;
+  const setPosts = props.setPosts;
 
   const handleSubmit = async (e) => {
     const author = authUser.name;
     const textContent = e.target[0].value;
     e.preventDefault();
 
-    const res = await axios.post(`http://localhost:4000/post/add`, {
-      author,
-      textContent,
-    });
-    console.log("res: ", res);
+    try {
+      await axios.post(`http://localhost:4000/post/add`, {
+        author,
+        textContent,
+      });
+      const postsResponse = await axios.get(`http://localhost:4000/post/get`);
+      setPosts(postsResponse.data);
+    } catch (error) {
+      console.log("error: ", error);
+    }
   };
 
   return (

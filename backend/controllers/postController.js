@@ -7,13 +7,23 @@ const addPost = async (req, res) => {
       textContent: req.body.textContent,
     });
     await newPost.save();
-    res.status(201).json(newPost);
+    res.status(201).end();
   } catch (error) {
     console.log("error: ", error);
     res.status(400).json({ message: error.message });
   }
 };
 
+const getPosts = async (req, res) => {
+  try {
+    const posts = await User_Post.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+}
+
 module.exports = {
   addPost,
+  getPosts,
 };

@@ -8,8 +8,14 @@ const Container = styled.main`
 
 const Main = (props) => {
   const viewAccount = props.viewAccount;
+  const posts = props.posts;
+  const setPosts = props.setPosts;
 
-  return <Container>{viewAccount ? <Account /> : <Posts />}</Container>;
+  return (
+    <Container>
+      {viewAccount ? <Account /> : <Posts posts={posts} setPosts={setPosts} />}
+    </Container>
+  );
 };
 
 export { Main };

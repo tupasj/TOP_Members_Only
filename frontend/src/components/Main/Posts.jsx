@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   margin: 25px;
@@ -17,27 +19,42 @@ const PostDate = styled.div`
   opacity: 0.5;
 `;
 
-const Post = () => {
+const Post = (props) => {
+  const postedDate = props.postedDate;
+  const formattedDate = postedDate.split('T')[0];
+
   return (
     <Container>
-      <UserName>User Name</UserName>
-      <TextContent>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Tempor orci dapibus
-        ultrices in iaculis nunc sed. Massa sed elementum tempus egestas. Sed
-        risus ultricies tristique nulla aliquet enim tortor at. Id volutpat
-        lacus laoreet non curabitur gravida arcu ac tortor.
-      </TextContent>
-      <PostDate>Posted: DayOfTheWeek at xx:xx A.M.</PostDate>
+      <UserName>{props.username}</UserName>
+      <TextContent>{props.textContent}</TextContent>
+      <PostDate>Posted: {formattedDate}</PostDate>
     </Container>
   );
 };
 
-const Posts = () => {
+const Posts = (props) => {
+  const posts = props.posts;
+  const setPosts = props.setPosts;
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const postsResponse = await axios.get(`http://localhost:4000/post/get`);
+      setPosts(postsResponse.data);
+    };
+    getPosts();
+  }, []);
+
   return (
     <>
-      <Post />
-      <Post />
+      {posts[0] &&
+        posts.map((post) => (
+          <Post
+            key={post._id}
+            username={post.author}
+            textContent={post.textContent}
+            postedDate={post.postedAt}
+          />
+        ))}
     </>
   );
 };
