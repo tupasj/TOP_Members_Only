@@ -11,7 +11,7 @@ const postRoutes = require("./routes/postRoutes");
 
 connectToDatabase();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
