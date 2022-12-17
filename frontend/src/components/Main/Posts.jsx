@@ -35,6 +35,7 @@ const XButton = styled.i`
 const Post = (props) => {
   const { authUser } = useContext(AuthContext);
   const postID = props.postID;
+  const author = props.author;
   const postedDate = props.postedDate;
   const setPosts = props.setPosts;
   const formattedDate = postedDate.split("T")[0];
@@ -45,10 +46,10 @@ const Post = (props) => {
     setPosts(postsResponse.data);
   };
 
-  let author;
+  let postedBy;
   if (authUser) {
     if (authUser.member || authUser.admin) {
-      author = <UserName>{props.username}</UserName>;
+      postedBy = <UserName>{author}</UserName>;
     }
   }
 
@@ -69,7 +70,7 @@ const Post = (props) => {
   return (
     <Container>
       {deleteButton}
-      {author}
+      {postedBy}
       <TextContent>{props.textContent}</TextContent>
       <PostDate>Posted: {formattedDate}</PostDate>
     </Container>
@@ -95,7 +96,7 @@ const Posts = (props) => {
           <Post
             key={post._id}
             postID={post._id}
-            username={post.author}
+            author={post.author}
             textContent={post.textContent}
             postedDate={post.postedAt}
             setPosts={setPosts}

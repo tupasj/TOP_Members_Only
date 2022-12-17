@@ -39,6 +39,7 @@ const Header = (props) => {
   const [addMessageModalOpen, setAddMessageModalOpen] = useState(false);
   const { authUser, setAuthUser } = useContext(AuthContext);
   const setViewAccount = props.setViewAccount;
+  const setPosts = props.setPosts;
 
   const logout = async () => {
     await axios.post(
@@ -85,6 +86,7 @@ const Header = (props) => {
       <MessageModal
         addMessageModalOpen={addMessageModalOpen}
         setAddMessageModalOpen={setAddMessageModalOpen}
+        setPosts={setPosts}
       />
     </Container>
   );
