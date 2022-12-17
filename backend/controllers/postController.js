@@ -23,7 +23,17 @@ const getPosts = async (req, res) => {
   }
 }
 
+const deletePost = async (req, res) => {
+  try {
+    await User_Post.deleteOne({_id: req.params.postID});
+    res.status(200).end();
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+}
+
 module.exports = {
   addPost,
   getPosts,
+  deletePost,
 };
