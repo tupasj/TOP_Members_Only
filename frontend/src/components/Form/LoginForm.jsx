@@ -56,7 +56,7 @@ const LoginForm = () => {
     const loginUser = async (values) => {
       try {
         const loginResponse = await axios.post(
-          "https://top-members-only.up.railway.app/user/login",
+          "https://top-members-only-api.up.railway.app/user/login",
           {
             email: values.email,
             password: values.password,

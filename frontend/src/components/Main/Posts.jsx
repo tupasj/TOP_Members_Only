@@ -41,8 +41,8 @@ const Post = (props) => {
   const formattedDate = postedDate.split("T")[0];
 
   const deletePost = async (postID) => {
-    await axios.delete(`https://top-members-only.up.railway.app/post/delete/${postID}`);
-    const postsResponse = await axios.get(`https://top-members-only.up.railway.app/post/get`);
+    await axios.delete(`https://top-members-only-api.up.railway.app/post/delete/${postID}`);
+    const postsResponse = await axios.get(`https://top-members-only-api.up.railway.app/post/get`);
     setPosts(postsResponse.data);
   };
 
@@ -83,7 +83,7 @@ const Posts = (props) => {
 
   useEffect(() => {
     const getPosts = async () => {
-      const postsResponse = await axios.get(`https://top-members-only.up.railway.app/post/get`);
+      const postsResponse = await axios.get(`https://top-members-only-api.up.railway.app/post/get`);
       setPosts(postsResponse.data);
     };
     getPosts();

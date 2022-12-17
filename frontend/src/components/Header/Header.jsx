@@ -43,7 +43,7 @@ const Header = (props) => {
 
   const logout = async () => {
     await axios.post(
-      `https://top-members-only.up.railway.app/user/logout`,
+      `https://top-members-only-api.up.railway.app/user/logout`,
       {},
       { withCredentials: true }
     );
