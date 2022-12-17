@@ -14,6 +14,7 @@ const Container = styled.div`
   border-radius: 8px;
   padding: 25px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+  z-index: 2;
 `;
 
 const IconContainer = styled.span`

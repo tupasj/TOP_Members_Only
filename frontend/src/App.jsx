@@ -13,10 +13,6 @@ const App = () => {
     console.log("authUser: ", authUser);
   }, [authUser]);
 
-  useEffect(() => {
-    console.log("posts: ", posts);
-  }, [posts]);
-
   return (
     <GlobalStyles>
       <AuthContext.Provider value={{ authUser, setAuthUser }}>

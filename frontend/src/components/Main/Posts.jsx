@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const Container = styled.div`
   margin: 25px;
@@ -20,12 +21,20 @@ const PostDate = styled.div`
 `;
 
 const Post = (props) => {
+  const { authUser } = useContext(AuthContext);
   const postedDate = props.postedDate;
-  const formattedDate = postedDate.split('T')[0];
+  const formattedDate = postedDate.split("T")[0];
+
+  let author;
+  if (authUser) {
+    if (authUser.member || authUser.admin) {
+      author = <UserName>{props.username}</UserName>;
+    }
+  }
 
   return (
     <Container>
-      <UserName>{props.username}</UserName>
+      {author}
       <TextContent>{props.textContent}</TextContent>
       <PostDate>Posted: {formattedDate}</PostDate>
     </Container>
