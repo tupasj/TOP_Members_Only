@@ -66,7 +66,7 @@ const SignupForm = () => {
       console.log("password: ", values.password);
       try {
         const registerResponse = await axios.post(
-          "http://localhost:4000/user/register",
+          "https://top-members-only.up.railway.app/user/register",
           {
             email: values.email,
             name: values.name,

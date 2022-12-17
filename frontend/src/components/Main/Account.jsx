@@ -21,7 +21,7 @@ const AdminStatus = styled.div`
 const Account = () => {
   const { authUser, setAuthUser } = useContext(AuthContext);
   const getUser = async (email) => {
-    const getUserResponse = await axios.get(`http://localhost:4000/user/email=${email}`);
+    const getUserResponse = await axios.get(`https://top-members-only.up.railway.app/user/email=${email}`);
     return getUserResponse.data.user;
   };
 
@@ -31,7 +31,7 @@ const Account = () => {
     const email = authUser.email;
 
     try {
-      await axios.patch(`http://localhost:4000/user/memberCode=${memberCode}`, {
+      await axios.patch(`https://top-members-only.up.railway.app/user/memberCode=${memberCode}`, {
         email,
       });
       const retrievedUser = await getUser(email);
@@ -47,7 +47,7 @@ const Account = () => {
     const email = authUser.email;
 
     try {
-      await axios.patch(`http://localhost:4000/user/adminCode=${adminCode}`, {
+      await axios.patch(`https://top-members-only.up.railway.app/user/adminCode=${adminCode}`, {
         email,
       });
       const retrievedUser = await getUser(email);

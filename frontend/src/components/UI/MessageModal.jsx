@@ -50,11 +50,11 @@ const MessageModal = (props) => {
     e.preventDefault();
 
     try {
-      await axios.post(`http://localhost:4000/post/add`, {
+      await axios.post(`https://top-members-only.up.railway.app/post/add`, {
         author,
         textContent,
       });
-      const postsResponse = await axios.get(`http://localhost:4000/post/get`);
+      const postsResponse = await axios.get(`https://top-members-only.up.railway.app/post/get`);
       setPosts(postsResponse.data);
     } catch (error) {
       console.log("error: ", error);
